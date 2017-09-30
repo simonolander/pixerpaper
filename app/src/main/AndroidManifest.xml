@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="se.olander.android.pixelpaper">
+
+    <uses-feature
+        android:name="android.software.live_wallpaper"
+        android:required="true">
+    </uses-feature>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_smartphone"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_smartphone"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <service android:name=".PixelPaperWallpaperService"
+            android:enabled="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/wallpaper">
+            </meta-data>
+        </service>
+        <activity android:name=".PixelPaperPreferencesActivity"
+            android:exported="true"
+            android:label="@string/app_name">
+        </activity>
+
+    </application>
+
+</manifest>

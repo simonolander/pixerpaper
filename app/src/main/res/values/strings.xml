@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Pixel Paper</string>
+
+    <string-array name="background_values">
+        <item>autumn.gif</item>
+        <item>condiments.gif</item>
+        <item>dj.gif</item>
+        <item>egypt.gif</item>
+        <item>sploosh.gif</item>
+        <item>sunset.gif</item>
+        <item>totoro.gif</item>
+    </string-array>
+
+    <string-array name="background_entries">
+        <item>Autumn</item>
+        <item>Condiments</item>
+        <item>Robo DJ</item>
+        <item>Egypt</item>
+        <item>Sploosh</item>
+        <item>Sunset</item>
+        <item>Totoro</item>
+    </string-array>
+</resources>
