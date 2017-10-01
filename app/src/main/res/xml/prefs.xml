@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
-        android:key="background_file"
-        android:entryValues="@array/background_values"
         android:entries="@array/background_entries"
+        android:entryValues="@array/background_values"
+        android:key="background_file"
         android:summary="%s"
-        android:title="Background Image"
-    />
+        android:title="Background Image" />
     <SwitchPreference
         android:key="trace"
-        android:title="Trace Motion"
-    />
-    <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
-        android:key="trace_duration"
-        android:title="Trace Duration (ms)"
-        android:summary="%s"
-        android:defaultValue="1000"
-        android:numeric="integer"
-    />
-    <com.kizitonwose.colorpreference.ColorPreference
-        android:defaultValue="@android:color/white"
-        android:key="spark_color"
-        android:title="Trace Color"
-    />
-    <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
-        android:key="spark_points"
-        android:title="Spark Points"
-        android:summary="%s"
-        android:defaultValue="100"
-        android:numeric="integer"
-    />
-    <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
-        android:key="spark_velocity"
-        android:title="Spark Velocity"
-        android:summary="%s"
-        android:defaultValue="0.05"
-        android:numeric="decimal"
-    />
-    <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
-        android:key="spark_gravity"
-        android:title="Spark Gravity"
-        android:summary="%s"
-        android:defaultValue="0.0006"
-        android:numeric="decimal"
-    />
+        android:title="Trace Motion" />
+    <PreferenceCategory
+        android:key="trace_category"
+        android:title="Trace Options">
+        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
+            android:defaultValue="1000"
+            android:key="trace_duration"
+            android:numeric="integer"
+            android:summary="%s"
+            android:title="Trace Duration (ms)" />
+        <com.kizitonwose.colorpreference.ColorPreference
+            android:defaultValue="@android:color/white"
+            android:key="spark_color"
+            android:title="Trace Color" />
+        <ListPreference
+            android:entries="@array/trace_type_entries"
+            android:entryValues="@array/trace_type_values"
+            android:key="trace_type"
+            android:summary="%s"
+            android:title="Trace Type" />
+        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
+            android:defaultValue="100"
+            android:key="spark_points"
+            android:numeric="integer"
+            android:summary="%s"
+            android:title="Spark Points" />
+        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
+            android:defaultValue="0.05"
+            android:key="spark_velocity"
+            android:numeric="decimal"
+            android:summary="%s"
+            android:title="Spark Velocity" />
+        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
+            android:defaultValue="0.0006"
+            android:key="spark_gravity"
+            android:numeric="decimal"
+            android:summary="%s"
+            android:title="Spark Gravity" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

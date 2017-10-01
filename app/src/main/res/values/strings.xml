@@ -20,4 +20,14 @@
         <item>Sunset</item>
         <item>Totoro</item>
     </string-array>
+
+    <string-array name="trace_type_values">
+        <item>pond</item>
+        <item>spark</item>
+    </string-array>
+
+    <string-array name="trace_type_entries">
+        <item>Pond</item>
+        <item>Spark</item>
+    </string-array>
 </resources>

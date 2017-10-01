@@ -20,16 +20,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import static se.olander.android.pixelpaper.C.*;
+
 public class PixelPaperWallpaperService extends WallpaperService {
-    private static final String DEFAULT_FILE_NAME = "sunset.gif";
-    private static final String BACKGROUND_FILE_KEY = "background_file";
-    private static final String TRACE_KEY = "trace";
-    private static final String TRACE_DURATION = "trace_duration";
-    private static final String SPARK_COLOR_KEY = "spark_color";
-    private static final String SPARK_POINTS = "spark_points";
-    private static final String SPARK_VELOCITY = "spark_velocity";
-    private static final String SPARK_GRAVITY = "spark_gravity";
-    private static final String POND_RADIUS = "pond_radius";
 
     @Override
     public Engine onCreateEngine() {
@@ -47,6 +40,8 @@ public class PixelPaperWallpaperService extends WallpaperService {
 
         private boolean trace;
 
+        private String traceType;
+
         MovieWallpaperEngine() {
             this.handler = new Handler();
             this.touches = new LinkedList<>();
@@ -55,11 +50,12 @@ public class PixelPaperWallpaperService extends WallpaperService {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             onSharedPreferenceChanged(prefs, BACKGROUND_FILE_KEY);
             onSharedPreferenceChanged(prefs, TRACE_KEY);
-            onSharedPreferenceChanged(prefs, TRACE_DURATION);
-            onSharedPreferenceChanged(prefs, SPARK_COLOR_KEY);
-            onSharedPreferenceChanged(prefs, SPARK_POINTS);
-            onSharedPreferenceChanged(prefs, SPARK_VELOCITY);
-            onSharedPreferenceChanged(prefs, SPARK_GRAVITY);
+            onSharedPreferenceChanged(prefs, TRACE_DURATION_KEY);
+            onSharedPreferenceChanged(prefs, TRACE_COLOR_KEY);
+            onSharedPreferenceChanged(prefs, SPARK_POINTS_KEY);
+            onSharedPreferenceChanged(prefs, SPARK_VELOCITY_KEY);
+            onSharedPreferenceChanged(prefs, SPARK_GRAVITY_KEY);
+            onSharedPreferenceChanged(prefs, TRACE_TYPE_KEY);
             prefs.registerOnSharedPreferenceChangeListener(this);
         }
 
@@ -148,34 +144,37 @@ public class PixelPaperWallpaperService extends WallpaperService {
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             Log.d(TAG, "Preference changed: " + key);
             if (Objects.equals(key, BACKGROUND_FILE_KEY)) {
-                setMovie(prefs.getString(key, DEFAULT_FILE_NAME));
+                setMovie(prefs.getString(key, BACKGROUND_FILE_DEFAULT));
             }
             else if (Objects.equals(key, TRACE_KEY)) {
                 trace = prefs.getBoolean(key, false);
             }
-            else if (Objects.equals(key, TRACE_DURATION)) {
-                String value = prefs.getString(key, "1000");
-                Touch.DURATION = NumberUtils.toInt(value, 1000);
+            else if (Objects.equals(key, TRACE_DURATION_KEY)) {
+                String value = prefs.getString(key, null);
+                Touch.DURATION = NumberUtils.toInt(value, TRACE_DURATION_DEFAULT);
             }
-            else if (Objects.equals(key, SPARK_COLOR_KEY)) {
-                int value = prefs.getInt(key, Color.WHITE);
+            else if (Objects.equals(key, TRACE_COLOR_KEY)) {
+                int value = prefs.getInt(key, TRACE_COLOR_DEFAULT);
                 paint.setColor(value);
             }
-            else if (Objects.equals(key, SPARK_POINTS)) {
-                String value = prefs.getString(key, "100");
-                SparkTouch.SPARK_POINTS = NumberUtils.toInt(value, 100);
+            else if (Objects.equals(key, SPARK_POINTS_KEY)) {
+                String value = prefs.getString(key, null);
+                SparkTouch.SPARK_POINTS = NumberUtils.toInt(value, SPARK_POINTS_DEFAULT);
             }
-            else if (Objects.equals(key, SPARK_VELOCITY)) {
-                String value = prefs.getString(key, "0.05");
-                SparkTouch.SPARK_VELOCITY = NumberUtils.toDouble(value, 0.05);
+            else if (Objects.equals(key, SPARK_VELOCITY_KEY)) {
+                String value = prefs.getString(key, null);
+                SparkTouch.SPARK_VELOCITY = NumberUtils.toDouble(value, SPARK_VELOCITY_DEFAULT);
             }
-            else if (Objects.equals(key, SPARK_GRAVITY)) {
-                String value = prefs.getString(key, "0.0006");
-                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, 0.0006);
+            else if (Objects.equals(key, SPARK_GRAVITY_KEY)) {
+                String value = prefs.getString(key, null);
+                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, SPARK_GRAVITY_DEFAULT);
             }
-            else if (Objects.equals(key, POND_RADIUS)) {
-                String value = prefs.getString(key, "100");
-                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, 0.0006);
+            else if (Objects.equals(key, POND_RADIUS_KEY)) {
+                String value = prefs.getString(key, null);
+                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, POND_RADIUS_DEFAULT);
+            }
+            else if (Objects.equals(key, TRACE_TYPE_KEY)) {
+                traceType = prefs.getString(key, TRACE_TYPE_DEFAULT);
             }
         }
 
@@ -184,7 +183,16 @@ public class PixelPaperWallpaperService extends WallpaperService {
             super.onTouchEvent(event);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_MOVE:
-                    Touch touch = new PondTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                    final Touch touch;
+                    switch (traceType) {
+                        case TRACE_TYPE_SPARK:
+                            touch = new SparkTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                            break;
+                        case TRACE_TYPE_POND:
+                        default:
+                            touch = new PondTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                            break;
+                    }
                     synchronized (touches) {
                         touches.add(touch);
                     }
