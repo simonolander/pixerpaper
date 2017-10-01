@@ -21,7 +21,7 @@ abstract class Touch {
     }
 
     boolean isExpired(long timestamp) {
-        return timestamp - this.timestamp > DURATION;
+        return timestamp - getTimestamp() > DURATION;
     }
 
     float getX() {
@@ -38,6 +38,14 @@ abstract class Touch {
 
     Paint getPaint() {
         return paint;
+    }
+
+    float fTimePassed(long timestamp) {
+        return (float) (timestamp - getTimestamp()) / DURATION;
+    }
+
+    float fTimeRemaining(long timestamp) {
+        return 1 - fTimePassed(timestamp);
     }
 
     abstract void draw(Canvas canvas, long timestamp);

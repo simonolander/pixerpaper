@@ -15,7 +15,6 @@ import android.view.SurfaceHolder;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +29,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
     private static final String SPARK_POINTS = "spark_points";
     private static final String SPARK_VELOCITY = "spark_velocity";
     private static final String SPARK_GRAVITY = "spark_gravity";
+    private static final String POND_RADIUS = "pond_radius";
 
     @Override
     public Engine onCreateEngine() {
@@ -40,25 +40,27 @@ public class PixelPaperWallpaperService extends WallpaperService {
         private final static String TAG = "MovieWallpaperEngine";
 
         private final Handler handler;
-
         private final List<Touch> touches;
+        private final Paint paint;
 
         private Movie movie;
 
         private boolean trace;
 
-        private Paint paint;
-        {
-            paint = new Paint();
-            paint.setColor(Color.RED);
-        }
-
         MovieWallpaperEngine() {
             this.handler = new Handler();
             this.touches = new LinkedList<>();
+            this.paint = new Paint();
+
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            onSharedPreferenceChanged(prefs, BACKGROUND_FILE_KEY);
+            onSharedPreferenceChanged(prefs, TRACE_KEY);
+            onSharedPreferenceChanged(prefs, TRACE_DURATION);
+            onSharedPreferenceChanged(prefs, SPARK_COLOR_KEY);
+            onSharedPreferenceChanged(prefs, SPARK_POINTS);
+            onSharedPreferenceChanged(prefs, SPARK_VELOCITY);
+            onSharedPreferenceChanged(prefs, SPARK_GRAVITY);
             prefs.registerOnSharedPreferenceChangeListener(this);
-            setMovie(prefs.getString(BACKGROUND_FILE_KEY, DEFAULT_FILE_NAME));
         }
 
         private void setMovie(String filename) {
@@ -164,10 +166,14 @@ public class PixelPaperWallpaperService extends WallpaperService {
                 SparkTouch.SPARK_POINTS = NumberUtils.toInt(value, 100);
             }
             else if (Objects.equals(key, SPARK_VELOCITY)) {
-                String value = prefs.getString(key, "100");
+                String value = prefs.getString(key, "0.05");
                 SparkTouch.SPARK_VELOCITY = NumberUtils.toDouble(value, 0.05);
             }
             else if (Objects.equals(key, SPARK_GRAVITY)) {
+                String value = prefs.getString(key, "0.0006");
+                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, 0.0006);
+            }
+            else if (Objects.equals(key, POND_RADIUS)) {
                 String value = prefs.getString(key, "100");
                 SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, 0.0006);
             }
@@ -178,7 +184,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
             super.onTouchEvent(event);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_MOVE:
-                    Touch touch = new SparkTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                    Touch touch = new PondTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
                     synchronized (touches) {
                         touches.add(touch);
                     }
