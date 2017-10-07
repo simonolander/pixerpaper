@@ -1,23 +1,19 @@
-package se.olander.android.pixelpaper;
+package se.olander.android.pixelpaper.traces;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import java.util.Arrays;
 
-/**
- * Created by sios on 2017-09-30.
- */
-
-class SparkTouch extends Touch {
-    static int SPARK_POINTS = 100;
-    static double SPARK_VELOCITY = 0.05;
-    static double SPARK_GRAVITY = 0.0006;
+public class FallingSparkles extends Trace {
+    public static int SPARK_POINTS = 100;
+    public static double SPARK_VELOCITY = 0.05;
+    public static double SPARK_GRAVITY = 0.0006;
 
     private final float[] sparkPoints;
     private final double[] sparkVelocities;
 
-    SparkTouch(float x, float y, long timestamp, Paint paint) {
+    public FallingSparkles(float x, float y, long timestamp, Paint paint) {
         super(x, y, timestamp, paint);
         this.sparkPoints = new float[SPARK_POINTS * 2];
         this.sparkVelocities = new double[sparkPoints.length];
@@ -29,7 +25,7 @@ class SparkTouch extends Touch {
         }
     }
 
-    void draw(Canvas canvas, long timestamp) {
+    public void draw(Canvas canvas, long timestamp) {
         if (isExpired(timestamp)) {
             return;
         }
@@ -50,7 +46,7 @@ class SparkTouch extends Touch {
 
     @Override
     public String toString() {
-        return "SparkTouch{" +
+        return "FallingSparkles{" +
                 "sparkPoints=" + Arrays.toString(sparkPoints) +
                 ", sparkVelocities=" + Arrays.toString(sparkVelocities) +
                 "} " + super.toString();

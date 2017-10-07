@@ -20,6 +20,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import se.olander.android.pixelpaper.traces.ExpandingCircle;
+import se.olander.android.pixelpaper.traces.FallingSparkles;
+import se.olander.android.pixelpaper.traces.Trace;
+
 import static se.olander.android.pixelpaper.C.*;
 
 public class PixelPaperWallpaperService extends WallpaperService {
@@ -33,7 +37,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
         private final static String TAG = "MovieWallpaperEngine";
 
         private final Handler handler;
-        private final List<Touch> touches;
+        private final List<Trace> touches;
         private final Paint paint;
 
         private Movie movie;
@@ -93,9 +97,9 @@ public class PixelPaperWallpaperService extends WallpaperService {
         private void drawTrace(Canvas canvas) {
             synchronized (touches) {
                 long timestamp = System.currentTimeMillis();
-                Iterator<Touch> it = touches.iterator();
+                Iterator<Trace> it = touches.iterator();
                 while (it.hasNext()) {
-                    Touch touch = it.next();
+                    Trace touch = it.next();
                     if (touch.isExpired(timestamp)) {
                         it.remove();
                     }
@@ -151,7 +155,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
             }
             else if (Objects.equals(key, TRACE_DURATION_KEY)) {
                 String value = prefs.getString(key, null);
-                Touch.DURATION = NumberUtils.toInt(value, TRACE_DURATION_DEFAULT);
+                Trace.DURATION = NumberUtils.toInt(value, TRACE_DURATION_DEFAULT);
             }
             else if (Objects.equals(key, TRACE_COLOR_KEY)) {
                 int value = prefs.getInt(key, TRACE_COLOR_DEFAULT);
@@ -159,19 +163,19 @@ public class PixelPaperWallpaperService extends WallpaperService {
             }
             else if (Objects.equals(key, SPARK_POINTS_KEY)) {
                 String value = prefs.getString(key, null);
-                SparkTouch.SPARK_POINTS = NumberUtils.toInt(value, SPARK_POINTS_DEFAULT);
+                FallingSparkles.SPARK_POINTS = NumberUtils.toInt(value, SPARK_POINTS_DEFAULT);
             }
             else if (Objects.equals(key, SPARK_VELOCITY_KEY)) {
                 String value = prefs.getString(key, null);
-                SparkTouch.SPARK_VELOCITY = NumberUtils.toDouble(value, SPARK_VELOCITY_DEFAULT);
+                FallingSparkles.SPARK_VELOCITY = NumberUtils.toDouble(value, SPARK_VELOCITY_DEFAULT);
             }
             else if (Objects.equals(key, SPARK_GRAVITY_KEY)) {
                 String value = prefs.getString(key, null);
-                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, SPARK_GRAVITY_DEFAULT);
+                FallingSparkles.SPARK_GRAVITY = NumberUtils.toDouble(value, SPARK_GRAVITY_DEFAULT);
             }
             else if (Objects.equals(key, POND_RADIUS_KEY)) {
                 String value = prefs.getString(key, null);
-                SparkTouch.SPARK_GRAVITY = NumberUtils.toDouble(value, POND_RADIUS_DEFAULT);
+                FallingSparkles.SPARK_GRAVITY = NumberUtils.toDouble(value, POND_RADIUS_DEFAULT);
             }
             else if (Objects.equals(key, TRACE_TYPE_KEY)) {
                 traceType = prefs.getString(key, TRACE_TYPE_DEFAULT);
@@ -183,14 +187,14 @@ public class PixelPaperWallpaperService extends WallpaperService {
             super.onTouchEvent(event);
             switch (event.getAction()) {
                 case MotionEvent.ACTION_MOVE:
-                    final Touch touch;
+                    final Trace touch;
                     switch (traceType) {
                         case TRACE_TYPE_SPARK:
-                            touch = new SparkTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                            touch = new FallingSparkles(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
                             break;
                         case TRACE_TYPE_POND:
                         default:
-                            touch = new PondTouch(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                            touch = new ExpandingCircle(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
                             break;
                     }
                     synchronized (touches) {

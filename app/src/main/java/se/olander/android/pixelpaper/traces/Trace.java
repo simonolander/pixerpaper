@@ -1,11 +1,11 @@
-package se.olander.android.pixelpaper;
+package se.olander.android.pixelpaper.traces;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-abstract class Touch {
+public abstract class Trace {
 
-    static long DURATION = 1000;
+    public static long DURATION = 1000;
     static float INITIAL_RADIUS = 10;
 
     private final float x;
@@ -13,14 +13,14 @@ abstract class Touch {
     private final long timestamp;
     private final Paint paint;
 
-    Touch(float x, float y, long timestamp, Paint paint) {
+    Trace(float x, float y, long timestamp, Paint paint) {
         this.x = x;
         this.y = y;
         this.timestamp = timestamp;
         this.paint = paint;
     }
 
-    boolean isExpired(long timestamp) {
+    public boolean isExpired(long timestamp) {
         return timestamp - getTimestamp() > DURATION;
     }
 
@@ -48,11 +48,11 @@ abstract class Touch {
         return 1 - fTimePassed(timestamp);
     }
 
-    abstract void draw(Canvas canvas, long timestamp);
+    public abstract void draw(Canvas canvas, long timestamp);
 
     @Override
     public String toString() {
-        return "Touch{" +
+        return "Trace{" +
                 "x=" + x +
                 ", y=" + y +
                 ", timestamp=" + timestamp +
