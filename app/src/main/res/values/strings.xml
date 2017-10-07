@@ -3,22 +3,60 @@
 
     <string-array name="background_values">
         <item>autumn.gif</item>
+        <item>autumn2.gif</item>
+        <item>bridge.gif</item>
+        <item>campfire.gif</item>
+        <item>city_docks.gif</item>
+        <item>coastline.gif</item>
         <item>condiments.gif</item>
-        <item>dj.gif</item>
-        <item>egypt.gif</item>
+        <item>construction_site.gif</item>
+        <item>developer.gif</item>
+        <item>floating_city.gif</item>
+        <item>fountain.gif</item>
+        <item>heavy_rain.gif</item>
+        <item>hero.gif</item>
+        <item>heroes.gif</item>
+        <item>mountain_city.gif</item>
+        <item>pirate_ship.gif</item>
+        <item>robo_dj.gif</item>
+        <item>ruined_city.gif</item>
+        <item>sakura.gif</item>
+        <item>spectre.gif</item>
         <item>sploosh.gif</item>
         <item>sunset.gif</item>
         <item>totoro.gif</item>
+        <item>waterfalls.gif</item>
+        <item>woodland_critters.gif</item>
+        <item>woodland_critters2.gif</item>
     </string-array>
 
     <string-array name="background_entries">
         <item>Autumn</item>
+        <item>Autumn 2</item>
+        <item>Bridge</item>
+        <item>Campfire</item>
+        <item>City Docks</item>
+        <item>Coastline</item>
         <item>Condiments</item>
+        <item>Construction Site</item>
+        <item>Developer</item>
+        <item>Floating City</item>
+        <item>Fountain</item>
+        <item>Heavy Rain</item>
+        <item>Hero</item>
+        <item>Heroes</item>
+        <item>Mountain City</item>
+        <item>Pirate Ship</item>
         <item>Robo DJ</item>
-        <item>Egypt</item>
+        <item>Ruined City</item>
+        <item>Sakura</item>
+        <item>Spectre</item>
         <item>Sploosh</item>
         <item>Sunset</item>
         <item>Totoro</item>
+        <item>Waterfalls</item>
+        <item>Woodland Critters</item>
+        <item>Woodland Critters 2</item>
     </string-array>
 
     <string-array name="trace_type_values">
