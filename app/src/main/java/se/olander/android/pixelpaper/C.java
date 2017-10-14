@@ -7,6 +7,9 @@ public final class C {
     public static final String BACKGROUND_FILE_KEY = "background_file";
     public static final String BACKGROUND_FILE_DEFAULT = "sunset.gif";
 
+    public static final String BACKGROUND_FILE_RANDOMIZE_KEY = "background_image_randomize";
+    public static final boolean BACKGROUND_FILE_RANDOMIZE_DEFAULT = false;
+
     public static final String TRACE_KEY = "trace";
     public static final boolean TRACE_DEFAULT = false;
 

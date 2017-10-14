@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import se.olander.android.pixelpaper.traces.ExpandingCircle;
 import se.olander.android.pixelpaper.traces.FallingSparkles;
@@ -135,6 +136,14 @@ public class PixelPaperWallpaperService extends WallpaperService {
             }
             else {
                 handler.removeCallbacks(drawer);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                if (prefs.getBoolean(BACKGROUND_FILE_RANDOMIZE_KEY, BACKGROUND_FILE_RANDOMIZE_DEFAULT)) {
+                    String[] filenames = getResources().getStringArray(R.array.background_values);
+                    String filename = filenames[new Random().nextInt(filenames.length)];
+                    prefs.edit()
+                            .putString(BACKGROUND_FILE_KEY, filename)
+                            .apply();
+                }
             }
         }
 

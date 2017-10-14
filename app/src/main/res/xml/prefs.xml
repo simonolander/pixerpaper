@@ -11,6 +11,10 @@
             android:summary="%s"
             android:title="Background Image" />
 
+        <SwitchPreference
+            android:key="background_image_randomize"
+            android:title="Randomize Background Image" />
+
     </PreferenceScreen>
     <PreferenceScreen
         android:key="trace_preferences"
