@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 public class FallingSparkles extends Trace {
     public static int SPARK_POINTS = 100;
-    public static double SPARK_VELOCITY = 0.05;
-    public static double SPARK_GRAVITY = 0.0006;
+    private static double SPARK_VELOCITY = 0.05;
+    private static double SPARK_GRAVITY = 0.0006;
 
     private final float[] sparkPoints;
     private final double[] sparkVelocities;

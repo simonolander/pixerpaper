@@ -19,6 +19,7 @@ public final class C {
     public static final String TRACE_TYPE_KEY = "trace_type";
     public static final String TRACE_TYPE_POND = "pond";
     public static final String TRACE_TYPE_SPARK = "spark";
+    public static final String TRACE_TYPE_PIXELS = "pixels";
     public static final String TRACE_TYPE_DEFAULT = TRACE_TYPE_POND;
 
     public static final String TRACE_COLOR_KEY = "spark_color";

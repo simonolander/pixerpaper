@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import se.olander.android.pixelpaper.traces.ExpandingCircle;
+import se.olander.android.pixelpaper.traces.FallingPixels;
 import se.olander.android.pixelpaper.traces.FallingSparkles;
 import se.olander.android.pixelpaper.traces.Trace;
 
@@ -172,18 +173,14 @@ public class PixelPaperWallpaperService extends WallpaperService {
             else if (Objects.equals(key, SPARK_POINTS_KEY)) {
                 FallingSparkles.SPARK_POINTS = prefs.getInt(key, SPARK_POINTS_DEFAULT);
             }
-            else if (Objects.equals(key, SPARK_VELOCITY_KEY)) {
-                String value = prefs.getString(key, null);
-                FallingSparkles.SPARK_VELOCITY = NumberUtils.toDouble(value, SPARK_VELOCITY_DEFAULT);
-            }
-            else if (Objects.equals(key, SPARK_GRAVITY_KEY)) {
-                String value = prefs.getString(key, null);
-                FallingSparkles.SPARK_GRAVITY = NumberUtils.toDouble(value, SPARK_GRAVITY_DEFAULT);
-            }
-            else if (Objects.equals(key, POND_RADIUS_KEY)) {
-                String value = prefs.getString(key, null);
-                FallingSparkles.SPARK_GRAVITY = NumberUtils.toDouble(value, POND_RADIUS_DEFAULT);
-            }
+//            else if (Objects.equals(key, SPARK_VELOCITY_KEY)) {
+//                String value = prefs.getString(key, null);
+//                FallingSparkles.SPARK_VELOCITY = NumberUtils.toDouble(value, SPARK_VELOCITY_DEFAULT);
+//            }
+//            else if (Objects.equals(key, SPARK_GRAVITY_KEY)) {
+//                String value = prefs.getString(key, null);
+//                FallingSparkles.SPARK_GRAVITY = NumberUtils.toDouble(value, SPARK_GRAVITY_DEFAULT);
+//            }
             else if (Objects.equals(key, TRACE_TYPE_KEY)) {
                 traceType = prefs.getString(key, TRACE_TYPE_DEFAULT);
             }
@@ -201,6 +198,9 @@ public class PixelPaperWallpaperService extends WallpaperService {
                     switch (traceType) {
                         case TRACE_TYPE_SPARK:
                             touch = new FallingSparkles(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
+                            break;
+                        case TRACE_TYPE_PIXELS:
+                            touch = new FallingPixels(event.getX(), event.getY(), System.currentTimeMillis(), new Paint(paint));
                             break;
                         case TRACE_TYPE_POND:
                         default:

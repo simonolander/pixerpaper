@@ -62,10 +62,12 @@
     <string-array name="trace_type_values">
         <item>pond</item>
         <item>spark</item>
+        <item>pixels</item>
     </string-array>
 
     <string-array name="trace_type_entries">
         <item>Pond</item>
         <item>Spark</item>
+        <item>Pixels</item>
     </string-array>
 </resources>

@@ -30,10 +30,10 @@
             step="25"
             android:key="trace_duration"
             android:title="Trace Duration (ms)" />
-        <!--<com.kizitonwose.colorpreference.ColorPreference-->
-        <!--android:defaultValue="@android:color/white"-->
-        <!--android:key="spark_color"-->
-        <!--android:title="Trace Color" />-->
+        <com.kizitonwose.colorpreference.ColorPreference
+            android:defaultValue="@android:color/white"
+            android:key="spark_color"
+            android:title="Trace Color" />
         <ListPreference
             android:entries="@array/trace_type_entries"
             android:entryValues="@array/trace_type_values"
@@ -46,18 +46,18 @@
             android:title="Spark Points"
             min="50"
             step="10"/>
-        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
-            android:defaultValue="0.05"
-            android:key="spark_velocity"
-            android:numeric="decimal"
-            android:summary="%s"
-            android:title="Spark Velocity" />
-        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
-            android:defaultValue="0.0006"
-            android:key="spark_gravity"
-            android:numeric="decimal"
-            android:summary="%s"
-            android:title="Spark Gravity" />
+        <!--<se.olander.android.pixelpaper.EditTextPreferenceWithSummary-->
+            <!--android:defaultValue="0.05"-->
+            <!--android:key="spark_velocity"-->
+            <!--android:numeric="decimal"-->
+            <!--android:summary="%s"-->
+            <!--android:title="Spark Velocity" />-->
+        <!--<se.olander.android.pixelpaper.EditTextPreferenceWithSummary-->
+            <!--android:defaultValue="0.0006"-->
+            <!--android:key="spark_gravity"-->
+            <!--android:numeric="decimal"-->
+            <!--android:summary="%s"-->
+            <!--android:title="Spark Gravity" />-->
 
     </PreferenceScreen>
 
