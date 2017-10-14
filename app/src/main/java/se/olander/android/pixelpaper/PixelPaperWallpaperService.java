@@ -146,7 +146,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            Log.d(TAG, "Preference changed: " + key);
+            Log.d(TAG, "Preference changed: [" + key + ", " + prefs.getAll().get(key) + "]");
             if (Objects.equals(key, BACKGROUND_FILE_KEY)) {
                 setMovie(prefs.getString(key, BACKGROUND_FILE_DEFAULT));
             }
@@ -154,8 +154,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
                 trace = prefs.getBoolean(key, false);
             }
             else if (Objects.equals(key, TRACE_DURATION_KEY)) {
-                String value = prefs.getString(key, null);
-                Trace.DURATION = NumberUtils.toInt(value, TRACE_DURATION_DEFAULT);
+                Trace.DURATION = prefs.getInt(key, TRACE_DURATION_DEFAULT);
             }
             else if (Objects.equals(key, TRACE_COLOR_KEY)) {
                 int value = prefs.getInt(key, TRACE_COLOR_DEFAULT);
@@ -179,6 +178,9 @@ public class PixelPaperWallpaperService extends WallpaperService {
             }
             else if (Objects.equals(key, TRACE_TYPE_KEY)) {
                 traceType = prefs.getString(key, TRACE_TYPE_DEFAULT);
+            }
+            else {
+                Log.d(TAG, "onSharedPreferenceChanged: " + prefs.getAll().get(key));
             }
         }
 

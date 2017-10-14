@@ -2,7 +2,6 @@ package se.olander.android.pixelpaper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Handler;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -17,7 +16,10 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
 
     private SeekBar seekbar;
     private TextView summary;
-    private int progress;
+    private int value;
+
+    private int min = 0;
+    private int step = 1;
 
     public SeekBarPreference(Context context) {
         this(context, null);
@@ -34,6 +36,24 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setLayoutResource(R.layout.seekbar_preference);
+
+        if (attrs != null) {
+            for (int i = 0; i < attrs.getAttributeCount(); i++) {
+                switch (attrs.getAttributeName(i)) {
+                    case "min":
+                        min = attrs.getAttributeIntValue(i, 0);
+                        break;
+                    case "step":
+                        step = attrs.getAttributeIntValue(i, 1);
+                        break;
+                }
+            }
+
+            if (step <= 0) {
+                Log.e(TAG, "SeekBarPreference illegal step: " + step);
+                step = 1;
+            }
+        }
     }
 
     @Override
@@ -41,7 +61,7 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
         super.onBindView(view);
         this.summary = view.findViewById(android.R.id.summary);
         this.seekbar = view.findViewById(R.id.seekbar);
-        this.seekbar.setProgress(this.progress);
+        this.seekbar.setProgress(toProgress(this.value));
         this.seekbar.setOnSeekBarChangeListener(this);
     }
 
@@ -49,13 +69,13 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         int value;
         if (restorePersistedValue) {
-            value = getPersistedInt(progress);
+            value = getPersistedInt(this.value);
         }
         else if (defaultValue instanceof Integer) {
             value = (Integer) defaultValue;
         }
         else {
-            value = progress;
+            value = this.value;
         }
 
         setValue(value);
@@ -63,7 +83,7 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        setValue(progress);
+        setValue(fromProgress(progress));
     }
 
     @Override
@@ -84,19 +104,27 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
 
     @Override
     public CharSequence getSummary() {
-        return Integer.toString(progress);
+        return "" + value;
     }
 
-    private void setValue(int progress) {
+    private void setValue(int value) {
         if (shouldPersist()) {
-            persistInt(progress);
+            persistInt(value);
         }
 
-        if (this.progress != progress) {
-            this.progress = progress;
+        if (this.value != value) {
+            this.value = value;
             if (summary != null) {
                 summary.setText(getSummary());
             }
         }
+    }
+
+    private int toProgress(int value) {
+        return (value - min) / step;
+    }
+
+    private int fromProgress(int progress) {
+        return progress * step + min;
     }
 }

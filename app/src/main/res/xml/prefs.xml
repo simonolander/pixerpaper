@@ -14,15 +14,17 @@
         android:defaultValue="35"
         android:title="Test"
         android:summary="%s"
+        min="500"
+        step="25"
         />
     <PreferenceCategory
         android:key="trace_category"
         android:title="Trace Options">
-        <se.olander.android.pixelpaper.EditTextPreferenceWithSummary
+        <se.olander.android.pixelpaper.SeekBarPreference
             android:defaultValue="1000"
+            min="250"
+            step="25"
             android:key="trace_duration"
-            android:numeric="integer"
-            android:summary="%s"
             android:title="Trace Duration (ms)" />
         <!--<com.kizitonwose.colorpreference.ColorPreference-->
             <!--android:defaultValue="@android:color/white"-->
