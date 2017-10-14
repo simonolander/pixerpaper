@@ -9,6 +9,12 @@
     <SwitchPreference
         android:key="trace"
         android:title="Trace Motion" />
+    <se.olander.android.pixelpaper.SeekBarPreference
+        android:key="test"
+        android:defaultValue="35"
+        android:title="Test"
+        android:summary="%s"
+        />
     <PreferenceCategory
         android:key="trace_category"
         android:title="Trace Options">
@@ -18,10 +24,10 @@
             android:numeric="integer"
             android:summary="%s"
             android:title="Trace Duration (ms)" />
-        <com.kizitonwose.colorpreference.ColorPreference
-            android:defaultValue="@android:color/white"
-            android:key="spark_color"
-            android:title="Trace Color" />
+        <!--<com.kizitonwose.colorpreference.ColorPreference-->
+            <!--android:defaultValue="@android:color/white"-->
+            <!--android:key="spark_color"-->
+            <!--android:title="Trace Color" />-->
         <ListPreference
             android:entries="@array/trace_type_entries"
             android:entryValues="@array/trace_type_values"
