@@ -2,11 +2,13 @@ package se.olander.android.pixelpaper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Handler;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 
 public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarChangeListener {
@@ -14,6 +16,7 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     private static final String TAG = "SeekBarPreference";
 
     private SeekBar seekbar;
+    private TextView summary;
     private int progress;
 
     public SeekBarPreference(Context context) {
@@ -36,6 +39,7 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
+        this.summary = view.findViewById(android.R.id.summary);
         this.seekbar = view.findViewById(R.id.seekbar);
         this.seekbar.setProgress(this.progress);
         this.seekbar.setOnSeekBarChangeListener(this);
@@ -64,29 +68,35 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
+//        Log.d(TAG, "onStartTrackingTouch: " + seekBar);
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+//        Log.d(TAG, "onStopTrackingTouch: " + seekBar);
+        notifyChanged();
     }
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        Log.d(TAG, "onGetDefaultValue a: " + a);
-        Log.d(TAG, "onGetDefaultValue index: " + index);
         return a.getInt(index, 0);
     }
 
-    public void setValue(int progress) {
+    @Override
+    public CharSequence getSummary() {
+        return Integer.toString(progress);
+    }
+
+    private void setValue(int progress) {
         if (shouldPersist()) {
             persistInt(progress);
         }
 
         if (this.progress != progress) {
             this.progress = progress;
-            notifyChanged();
+            if (summary != null) {
+                summary.setText(getSummary());
+            }
         }
     }
 }
