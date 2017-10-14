@@ -4,8 +4,6 @@ import android.graphics.Color;
 
 public final class C {
 
-    public static final String TRACE_CATEGORY_KEY = "trace_category";
-
     public static final String BACKGROUND_FILE_KEY = "background_file";
     public static final String BACKGROUND_FILE_DEFAULT = "sunset.gif";
 

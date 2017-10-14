@@ -31,7 +31,7 @@ public class PixelPaperPreferencesActivity extends PreferenceActivity {
         }
 
         private void setVisiblePreferences(SharedPreferences prefs) {
-            findPreference(TRACE_CATEGORY_KEY).setEnabled(prefs.getBoolean(TRACE_KEY, TRACE_DEFAULT));
+//            findPreference(TRACE_CATEGORY_KEY).setEnabled(prefs.getBoolean(TRACE_KEY, TRACE_DEFAULT));
             switch (prefs.getString(TRACE_TYPE_KEY, TRACE_TYPE_DEFAULT)) {
                 case TRACE_TYPE_POND:
                     findPreference(SPARK_GRAVITY_KEY).setEnabled(false);

@@ -161,8 +161,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
                 paint.setColor(value);
             }
             else if (Objects.equals(key, SPARK_POINTS_KEY)) {
-                String value = prefs.getString(key, null);
-                FallingSparkles.SPARK_POINTS = NumberUtils.toInt(value, SPARK_POINTS_DEFAULT);
+                FallingSparkles.SPARK_POINTS = prefs.getInt(key, SPARK_POINTS_DEFAULT);
             }
             else if (Objects.equals(key, SPARK_VELOCITY_KEY)) {
                 String value = prefs.getString(key, null);
