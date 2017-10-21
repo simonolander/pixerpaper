@@ -178,7 +178,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
                 setMovie(prefs.getString(key, BACKGROUND_FILE_DEFAULT));
             }
             else if (Objects.equals(key, TRACE_KEY)) {
-                trace = prefs.getBoolean(key, false);
+                trace = prefs.getBoolean(key, TRACE_DEFAULT);
             }
             else if (Objects.equals(key, TRACE_DURATION_KEY)) {
                 Trace.DURATION = prefs.getInt(key, TRACE_DURATION_DEFAULT);

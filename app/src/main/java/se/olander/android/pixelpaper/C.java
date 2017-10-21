@@ -5,22 +5,22 @@ import android.graphics.Color;
 public final class C {
 
     public static final String BACKGROUND_FILE_KEY = "background_file";
-    public static final String BACKGROUND_FILE_DEFAULT = "sunset.gif";
+    public static final String BACKGROUND_FILE_DEFAULT = "heroes.gif";
 
     public static final String BACKGROUND_FILE_RANDOMIZE_KEY = "background_image_randomize";
     public static final boolean BACKGROUND_FILE_RANDOMIZE_DEFAULT = false;
 
     public static final String TRACE_KEY = "trace";
-    public static final boolean TRACE_DEFAULT = false;
+    public static final boolean TRACE_DEFAULT = true;
 
     public static final String TRACE_DURATION_KEY = "trace_duration";
-    public static final int TRACE_DURATION_DEFAULT = 1000;
+    public static final int TRACE_DURATION_DEFAULT = 2500;
 
     public static final String TRACE_TYPE_KEY = "trace_type";
     public static final String TRACE_TYPE_POND = "pond";
     public static final String TRACE_TYPE_SPARK = "spark";
     public static final String TRACE_TYPE_PIXELS = "pixels";
-    public static final String TRACE_TYPE_DEFAULT = TRACE_TYPE_POND;
+    public static final String TRACE_TYPE_DEFAULT = TRACE_TYPE_PIXELS;
 
     public static final String TRACE_COLOR_KEY = "spark_color";
     public static final int TRACE_COLOR_DEFAULT = Color.WHITE;

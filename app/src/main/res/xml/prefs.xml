@@ -22,10 +22,11 @@
 
         <SwitchPreference
             android:key="trace"
+            android:defaultValue="true"
             android:title="Trace Motion" />
 
         <se.olander.android.pixelpaper.SeekBarPreference
-            android:defaultValue="1000"
+            android:defaultValue="2500"
             min="250"
             step="25"
             android:key="trace_duration"
