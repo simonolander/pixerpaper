@@ -68,8 +68,21 @@ public class PixelPaperWallpaperService extends WallpaperService {
         private void setMovie(String filename) {
             Log.d(TAG, "Setting new movie: " + filename);
             try {
-                this.movie = Movie.decodeStream(getResources().getAssets().open(filename));
-            } catch (IOException e) {
+                Movie movie = Movie.decodeStream(getResources().getAssets().open(filename));
+                if (movie == null) {
+                    throw new IllegalStateException("Movie is null");
+                }
+                if (movie.width() <= 0) {
+                    throw new IllegalStateException("movie.width() <= 0");
+                }
+                if (movie.height() <= 0) {
+                    throw new IllegalStateException("movie.height() <= 0");
+                }
+                if (movie.duration() <= 0) {
+                    throw new IllegalStateException("movie.duration() <= 0");
+                }
+                this.movie = movie;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
