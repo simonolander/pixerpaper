@@ -115,6 +115,10 @@ public class PixelPaperWallpaperService extends WallpaperService {
         private void draw() {
             if (isVisible()) {
                 Canvas canvas = getSurfaceHolder().lockCanvas();
+                if (canvas == null) {
+                    Log.d(TAG, "draw: canvas is null, aborting");
+                    return;
+                }
 
                 canvas.drawColor(Color.BLACK);
                 drawMovie(canvas);
