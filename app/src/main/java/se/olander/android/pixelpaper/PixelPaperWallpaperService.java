@@ -12,13 +12,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 import se.olander.android.pixelpaper.traces.ExpandingCircle;
@@ -26,7 +24,25 @@ import se.olander.android.pixelpaper.traces.FallingPixels;
 import se.olander.android.pixelpaper.traces.FallingSparkles;
 import se.olander.android.pixelpaper.traces.Trace;
 
-import static se.olander.android.pixelpaper.C.*;
+import static se.olander.android.pixelpaper.C.BACKGROUND_FILE_DEFAULT;
+import static se.olander.android.pixelpaper.C.BACKGROUND_FILE_KEY;
+import static se.olander.android.pixelpaper.C.BACKGROUND_FILE_RANDOMIZE_DEFAULT;
+import static se.olander.android.pixelpaper.C.BACKGROUND_FILE_RANDOMIZE_KEY;
+import static se.olander.android.pixelpaper.C.SPARK_GRAVITY_KEY;
+import static se.olander.android.pixelpaper.C.SPARK_POINTS_DEFAULT;
+import static se.olander.android.pixelpaper.C.SPARK_POINTS_KEY;
+import static se.olander.android.pixelpaper.C.SPARK_VELOCITY_KEY;
+import static se.olander.android.pixelpaper.C.TRACE_COLOR_DEFAULT;
+import static se.olander.android.pixelpaper.C.TRACE_COLOR_KEY;
+import static se.olander.android.pixelpaper.C.TRACE_DEFAULT;
+import static se.olander.android.pixelpaper.C.TRACE_DURATION_DEFAULT;
+import static se.olander.android.pixelpaper.C.TRACE_DURATION_KEY;
+import static se.olander.android.pixelpaper.C.TRACE_KEY;
+import static se.olander.android.pixelpaper.C.TRACE_TYPE_DEFAULT;
+import static se.olander.android.pixelpaper.C.TRACE_TYPE_KEY;
+import static se.olander.android.pixelpaper.C.TRACE_TYPE_PIXELS;
+import static se.olander.android.pixelpaper.C.TRACE_TYPE_POND;
+import static se.olander.android.pixelpaper.C.TRACE_TYPE_SPARK;
 
 public class PixelPaperWallpaperService extends WallpaperService {
 
@@ -68,7 +84,21 @@ public class PixelPaperWallpaperService extends WallpaperService {
         private void setMovie(String filename) {
             Log.d(TAG, "Setting new movie: " + filename);
             try {
-                Movie movie = Movie.decodeStream(getResources().getAssets().open(filename));
+                InputStream in = getResources().getAssets().open(filename);
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                byte[] data = new byte[16384];
+
+                int nRead;
+                while ((nRead = in.read(data, 0, data.length)) != -1) {
+                    buffer.write(data, 0, nRead);
+                }
+
+                byte[] movieBytes = buffer.toByteArray();
+                if (movieBytes.length == 0) {
+                    throw new IllegalStateException("Movie bytes is empty");
+                }
+
+                Movie movie = Movie.decodeByteArray(movieBytes, 0, movieBytes.length);
                 if (movie == null) {
                     throw new IllegalStateException("Movie is null");
                 }
@@ -174,31 +204,31 @@ public class PixelPaperWallpaperService extends WallpaperService {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             Log.d(TAG, "Preference changed: [" + key + ", " + prefs.getAll().get(key) + "]");
-            if (Objects.equals(key, BACKGROUND_FILE_KEY)) {
+            if (BACKGROUND_FILE_KEY.equals(key)) {
                 setMovie(prefs.getString(key, BACKGROUND_FILE_DEFAULT));
             }
-            else if (Objects.equals(key, TRACE_KEY)) {
+            else if (TRACE_KEY.equals(key)) {
                 trace = prefs.getBoolean(key, TRACE_DEFAULT);
             }
-            else if (Objects.equals(key, TRACE_DURATION_KEY)) {
+            else if (TRACE_DURATION_KEY.equals(key)) {
                 Trace.DURATION = prefs.getInt(key, TRACE_DURATION_DEFAULT);
             }
-            else if (Objects.equals(key, TRACE_COLOR_KEY)) {
+            else if (TRACE_COLOR_KEY.equals(key)) {
                 int value = prefs.getInt(key, TRACE_COLOR_DEFAULT);
                 paint.setColor(value);
             }
-            else if (Objects.equals(key, SPARK_POINTS_KEY)) {
+            else if (SPARK_POINTS_KEY.equals(key)) {
                 FallingSparkles.SPARK_POINTS = prefs.getInt(key, SPARK_POINTS_DEFAULT);
             }
-//            else if (Objects.equals(key, SPARK_VELOCITY_KEY)) {
+//            else if (SPARK_VELOCITY_KEY.equals(key)) {
 //                String value = prefs.getString(key, null);
 //                FallingSparkles.SPARK_VELOCITY = NumberUtils.toDouble(value, SPARK_VELOCITY_DEFAULT);
 //            }
-//            else if (Objects.equals(key, SPARK_GRAVITY_KEY)) {
+//            else if (SPARK_GRAVITY_KEY.equals(key)) {
 //                String value = prefs.getString(key, null);
 //                FallingSparkles.SPARK_GRAVITY = NumberUtils.toDouble(value, SPARK_GRAVITY_DEFAULT);
 //            }
-            else if (Objects.equals(key, TRACE_TYPE_KEY)) {
+            else if (TRACE_TYPE_KEY.equals(key)) {
                 traceType = prefs.getString(key, TRACE_TYPE_DEFAULT);
             }
             else {
