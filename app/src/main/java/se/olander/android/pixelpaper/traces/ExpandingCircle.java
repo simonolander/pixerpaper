@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class ExpandingCircle extends Trace {
-    static float RADIUS = 100;
+    static final float RADIUS = 100;
 
     public ExpandingCircle(float x, float y, long timestamp, Paint paint) {
         super(x, y, timestamp, paint);

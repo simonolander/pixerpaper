@@ -122,7 +122,7 @@ public class PixelPaperWallpaperService extends WallpaperService {
             super.onCreate(surfaceHolder);
         }
 
-        private Runnable drawer = new Runnable() {
+        private final Runnable drawer = new Runnable() {
             @Override
             public void run() {
                 draw();

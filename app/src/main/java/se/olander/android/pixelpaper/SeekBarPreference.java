@@ -30,11 +30,7 @@ public class SeekBarPreference extends Preference implements SeekBar.OnSeekBarCh
     }
 
     public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public SeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         setLayoutResource(R.layout.seekbar_preference);
 
         if (attrs != null) {

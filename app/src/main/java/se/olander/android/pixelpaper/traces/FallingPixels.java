@@ -2,15 +2,12 @@ package se.olander.android.pixelpaper.traces;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
-
-import java.util.Arrays;
 
 public class FallingPixels extends Trace {
-    private static int POINTS = 10;
-    private static float VELOCITY = 0.05f;
-    private static float GRAVITY = 0.0006f;
-    private static float SIZE = 35;
+    private static final int POINTS = 10;
+    private static final float VELOCITY = 0.05f;
+    private static final float GRAVITY = 0.0006f;
+    private static final float SIZE = 35;
 
     private final float[] velocities;
     private final float[] sizes;
