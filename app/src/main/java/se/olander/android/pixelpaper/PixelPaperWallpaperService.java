@@ -100,16 +100,16 @@ public class PixelPaperWallpaperService extends WallpaperService {
 
                 Movie movie = Movie.decodeByteArray(movieBytes, 0, movieBytes.length);
                 if (movie == null) {
-                    throw new IllegalStateException("Movie is null");
+                    throw new IllegalStateException("Movie is null, number of movie bytes: " + movieBytes.length);
                 }
                 if (movie.width() <= 0) {
-                    throw new IllegalStateException("movie.width() <= 0");
+                    throw new IllegalStateException("movie.width() <= 0, number of movie bytes: " + movieBytes.length);
                 }
                 if (movie.height() <= 0) {
-                    throw new IllegalStateException("movie.height() <= 0");
+                    throw new IllegalStateException("movie.height() <= 0, number of movie bytes: " + movieBytes.length);
                 }
                 if (movie.duration() <= 0) {
-                    throw new IllegalStateException("movie.duration() <= 0");
+                    throw new IllegalStateException("movie.duration() <= 0, number of movie bytes: " + movieBytes.length);
                 }
                 this.movie = movie;
             } catch (Exception e) {
